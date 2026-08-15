@@ -50,7 +50,22 @@ class GeminiBrain:
 
                 error_message = str(error)
 
-                # Retry temporary server problems
+                # -----------------------------------------
+                # 429 = Quota exceeded
+                # -----------------------------------------
+
+                if "429" in error_message or "RESOURCE_EXHAUSTED" in error_message:
+
+                    return (
+                        "Sir, the Gemini free-tier quota has "
+                        "been exhausted for now. "
+                        "Please try again after the quota resets."
+                    )
+
+                # -----------------------------------------
+                # 503 = Temporary server overload
+                # -----------------------------------------
+
                 if "503" in error_message or "UNAVAILABLE" in error_message:
 
                     if attempt < max_retries - 1:
@@ -66,9 +81,20 @@ class GeminiBrain:
 
                         continue
 
-                # Other errors should be reported immediately
+                    return (
+                        "Gemini is currently experiencing "
+                        "high demand. Please try again shortly, sir."
+                    )
+
+                # -----------------------------------------
+                # Other errors
+                # -----------------------------------------
+
                 raise error
 
+        return (
+            "I was unable to reach Gemini, sir."
+        )
         return (
             "Gemini is currently unavailable. "
             "Please try again shortly, sir."
