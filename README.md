@@ -215,3 +215,19 @@ V.I.D.U.R. aims to evolve from a voice-enabled conversational assistant into a m
 
 The ultimate goal is a **personal, extensible, and permission-aware AI agent** that can assist with both digital work and everyday productivity.
 
+# 👤 Developer
+
+## Chaithanya R Rao
+
+V.I.D.U.R. is being developed as a personal AI agent designed to combine modern AI capabilities with practical developer and research tools.
+
+### 🚀 Core Areas
+
+* 🤖 **Artificial Intelligence**
+* 🎙️ **Voice Interfaces**
+* 🧠 **Agentic Systems**
+* 💻 **Software Engineering**
+* 🔬 **Research Assistance**
+* 🛠️ **Developer Tooling**
+
+V.I.D.U.R. aims to evolve into a capable personal AI assistant that can reason, research, interact through voice, assist with software development, and automate useful tasks.
