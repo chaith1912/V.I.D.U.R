@@ -2,7 +2,7 @@
 
 ### Voice-Interactive Digital Utility & Research Assistant
 
-> A personal AI agent designed to assist with software development, research, technical writing, and everyday productivity.
+> A modular personal AI agent designed to assist with software development, research, technical writing, and everyday productivity.
 
 ---
 
@@ -12,13 +12,13 @@
 
 The goal is to build an intelligent agent capable of understanding natural language, interacting through voice, assisting with coding and research, and eventually operating tools on the user's computer with appropriate permissions.
 
-V.I.D.U.R. is designed around a modular architecture so that individual capabilities can be developed, tested, and integrated independently.
+V.I.D.U.R. is designed around a **modular architecture**, allowing individual capabilities to be developed, tested, and integrated independently.
 
 ---
 
 ## 🎯 Vision
 
-The long-term vision is to build V.I.D.U.R. as a personal AI agent rather than simply a chatbot.
+The long-term vision is to build V.I.D.U.R. as a **personal AI agent**, rather than simply a chatbot.
 
 ```text
                          V.I.D.U.R.
@@ -47,32 +47,38 @@ The long-term vision is to build V.I.D.U.R. as a personal AI agent rather than s
                     │
        ┌────────────┼────────────┐
        ▼            ▼            ▼
-    Filesystem    Terminal      Git
+   Filesystem    Terminal       Git
                     │
                     ▼
                   Memory
+```
 
+---
 
-🧠 Gemini AI Brain
+## 🧠 Gemini AI Brain
 
-V.I.D.U.R. currently uses the Google Gemini API as its primary AI provider.
+V.I.D.U.R. currently uses the **Google Gemini API** as its primary AI provider.
 
 Gemini is used for:
 
-Software development
-Code generation
-Debugging
-Algorithm assistance
-Technical explanations
-Research assistance
-Technical writing
-General conversation
+* Software development
+* Code generation
+* Debugging
+* Algorithm assistance
+* Technical explanations
+* Research assistance
+* Technical writing
+* General conversation
 
-The Gemini model is configurable through environment variables rather than being hard-coded into the application.
+The Gemini model is configured through environment variables rather than being hard-coded into the application.
 
-🏗️ Architecture
+---
+
+## 🏗️ Architecture
 
 The project follows a modular architecture:
+
+```text
 V.I.D.U.R/
 │
 ├── app/
@@ -104,15 +110,145 @@ V.I.D.U.R/
 ├── main.py
 ├── requirements.txt
 └── README.md
+```
 
-📈 Development Status
-    Voice Activation       ████████████████████ 100%
-    Speech Recognition     ████████████████████ 100%
-    Gemini Integration     ████████████████████ 100%
-    Conversation System     ██████████████████░░  90%
-    Text-to-Speech         ░░░░░░░░░░░░░░░░░░░░   0%
-    Desktop UI             ░░░░░░░░░░░░░░░░░░░░   0%
-    Tool System             ░░░░░░░░░░░░░░░░░░░░   0%
-    Coding Agent            ░░░░░░░░░░░░░░░░░░░░   0%
-    Research Agent          ░░░░░░░░░░░░░░░░░░░░   0%
-    Memory                  ░░░░░░░░░░░░░░░░░░░░   0%
+---
+
+## 📈 Development Status
+
+| Component           | Status |
+| ------------------- | -----: |
+| Voice Activation    | `100%` |
+| Speech Recognition  | `100%` |
+| Gemini Integration  | `100%` |
+| Conversation System |  `90%` |
+| Text-to-Speech      |   `0%` |
+| Desktop UI          |   `0%` |
+| Tool System         |   `0%` |
+| Coding Agent        |   `0%` |
+| Research Agent      |   `0%` |
+| Memory              |   `0%` |
+
+### Progress
+
+```text
+Voice Activation       ████████████████████ 100%
+Speech Recognition     ████████████████████ 100%
+Gemini Integration     ████████████████████ 100%
+Conversation System     ██████████████████░░  90%
+Text-to-Speech         ░░░░░░░░░░░░░░░░░░░░   0%
+Desktop UI              ░░░░░░░░░░░░░░░░░░░░   0%
+Tool System             ░░░░░░░░░░░░░░░░░░░░   0%
+Coding Agent            ░░░░░░░░░░░░░░░░░░░░   0%
+Research Agent          ░░░░░░░░░░░░░░░░░░░░   0%
+Memory                  ░░░░░░░░░░░░░░░░░░░░   0%
+```
+
+---
+
+## 🚀 Roadmap
+
+The planned development path is:
+
+1. **Complete the conversation system**
+2. **Add Text-to-Speech**
+3. **Build a desktop interface**
+4. **Implement a secure tool system**
+5. **Develop the coding agent**
+6. **Develop the research agent**
+7. **Implement persistent memory**
+8. **Add filesystem, terminal, and Git integrations**
+9. **Improve task routing and agent orchestration**
+10. **Add permission and safety controls for computer interaction**
+
+---
+
+## 🔐 Security & Permissions
+
+As V.I.D.U.R. evolves from a conversational assistant into an agent capable of interacting with a computer, potentially sensitive operations should require explicit user permissions.
+
+Examples include:
+
+* Reading or modifying files
+* Executing terminal commands
+* Creating or deleting files
+* Running software
+* Making Git changes
+* Accessing external services
+
+The tool system should therefore be designed around **least-privilege access, explicit permissions, and clear user confirmation for destructive actions**.
+
+---
+
+## 🧪 Testing
+
+V.I.D.U.R. includes tests for its core components:
+
+* Voice activation
+* Speech recognition
+* Activation logic
+* Configuration
+* Gemini integration
+* Conversation handling
+* Model behavior
+
+Run the test suite with:
+
+```bash
+pytest
+```
+
+---
+
+## ⚙️ Configuration
+
+Configuration is managed through environment variables.
+
+Create a `.env` file in the project root and configure the required API credentials and model settings.
+
+> **Important:** Never commit `.env` or API keys to version control.
+
+Make sure `.env` is included in `.gitignore`.
+
+---
+
+## 🛠️ Installation
+
+Clone the repository and install the required dependencies:
+
+```bash
+git clone <your-repository-url>
+cd V.I.D.U.R
+pip install -r requirements.txt
+```
+
+Configure your environment variables, then run:
+
+```bash
+python main.py
+```
+
+---
+
+## 📌 Project Goals
+
+V.I.D.U.R. aims to evolve from a voice-enabled conversational assistant into a modular AI agent capable of:
+
+* Understanding natural language
+* Conversing through voice
+* Generating and debugging code
+* Conducting research
+* Managing files
+* Working with the terminal
+* Interacting with Git
+* Maintaining long-term memory
+* Routing tasks to specialized agents
+* Operating computer tools safely with user authorization
+
+The ultimate goal is a **personal, extensible, and permission-aware AI agent** that can assist with both digital work and everyday productivity.
+
+---
+
+## 📄 License
+
+Add your chosen license here when the project is ready for public distribution.
