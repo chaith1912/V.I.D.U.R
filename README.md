@@ -215,8 +215,3 @@ V.I.D.U.R. aims to evolve from a voice-enabled conversational assistant into a m
 
 The ultimate goal is a **personal, extensible, and permission-aware AI agent** that can assist with both digital work and everyday productivity.
 
----
-
-## 📄 License
-
-Add your chosen license here when the project is ready for public distribution.
