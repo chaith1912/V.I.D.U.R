@@ -1,41 +1,47 @@
-from google import genai
+import os
+import sys
 
-from app.config.settings import GEMINI_API_KEY
+# Ensure repository root is on sys.path when running script directly
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# Force UTF-8 stdout if supported
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
+from groq import Groq
+from app.config.settings import GROQ_API_KEY
 
 
 def main():
-
-    client = genai.Client(
-        api_key=GEMINI_API_KEY
-    )
+    client = Groq(api_key=GROQ_API_KEY)
 
     models_to_test = [
-        "gemini-3.7-flash",
-        "deep-research-preview-04-2026",
-        "deep-research-pro-preview-12-2025",
+        "openai/gpt-oss-120b",
+        "qwen/qwen3.8-27b",
     ]
 
     prompt = "Reply with exactly: V.I.D.U.R. ONLINE"
 
     for model in models_to_test:
-
         print()
         print("=" * 60)
         print(f"Testing: {model}")
         print("=" * 60)
 
         try:
-
-            response = client.models.generate_content(
+            response = client.chat.completions.create(
                 model=model,
-                contents=prompt,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.0,
             )
 
             print("SUCCESS")
-            print(response.text)
+            print(response.choices[0].message.content)
 
         except Exception as error:
-
             print("FAILED")
             print(error)
 

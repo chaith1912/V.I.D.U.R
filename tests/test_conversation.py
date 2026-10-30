@@ -1,20 +1,31 @@
-from app.brain.gemini_brain import GeminiBrain
+import os
+import sys
+
+# Ensure repository root is on sys.path when running script directly
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# Force UTF-8 stdout if supported
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
+from app.brain.groq_brain import GroqBrain
 
 
 def main():
-
     print()
     print("=" * 60)
-    print("              V.I.D.U.R. ONLINE")
+    print("              V.I.D.U.R. ONLINE (CONVERSATION)")
     print("=" * 60)
     print()
     print("Type 'exit' to shut down V.I.D.U.R.")
     print()
 
-    brain = GeminiBrain()
+    brain = GroqBrain()
 
     while True:
-
         try:
             user_input = input("YOU: ").strip()
 
@@ -39,7 +50,6 @@ def main():
         print("V.I.D.U.R.: Thinking...")
 
         try:
-
             response = brain.ask(user_input)
 
             print()
@@ -47,7 +57,6 @@ def main():
             print()
 
         except Exception as error:
-
             print()
             print(
                 f"V.I.D.U.R.: I encountered an error: {error}"

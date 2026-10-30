@@ -6,19 +6,26 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_MODEL = os.getenv("GROQ_MODEL")
+
+# Optional audio configurations
+_device_env = os.getenv("AUDIO_DEVICE")
+AUDIO_DEVICE = int(_device_env) if _device_env and _device_env.strip().isdigit() else 3
+
+_duration_env = os.getenv("LISTEN_DURATION")
+LISTEN_DURATION = int(_duration_env) if _duration_env and _duration_env.strip().isdigit() else 7
 
 
-if not GEMINI_API_KEY:
+if not GROQ_API_KEY:
     raise RuntimeError(
-        "GEMINI_API_KEY is not configured. "
+        "GROQ_API_KEY is not configured. "
         "Add it to the .env file."
     )
 
 
-if not GEMINI_MODEL:
+if not GROQ_MODEL:
     raise RuntimeError(
-        "GEMINI_MODEL is not configured. "
+        "GROQ_MODEL is not configured. "
         "Add it to the .env file."
     )

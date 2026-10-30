@@ -3,11 +3,13 @@ import time
 import numpy as np
 import sounddevice as sd
 
+from app.config.settings import AUDIO_DEVICE
+
 
 class ClapDetector:
     def __init__(
         self,
-        device=3,
+        device=AUDIO_DEVICE,
         sample_rate=44100,
         channels=4,
         peak_threshold=0.20,
@@ -26,7 +28,6 @@ class ClapDetector:
         self.double_clap_detected = False
 
     def process_audio(self, indata, frames, time_info, status):
-
         if status:
             print("Audio status:", status)
 
@@ -39,8 +40,7 @@ class ClapDetector:
         if peak < self.peak_threshold:
             return
 
-        # Prevent one physical clap from being detected
-        # multiple times
+        # Prevent one physical clap from being detected multiple times
         if current_time - self.last_clap_time < self.cooldown:
             return
 
@@ -49,68 +49,38 @@ class ClapDetector:
         # ----------------------------------------
         # First clap
         # ----------------------------------------
-
         if self.first_clap_time is None:
-
             self.first_clap_time = current_time
-
-            print(
-                f"First clap detected! Peak: {peak:.3f}"
-            )
-
+            print(f"First clap detected! Peak: {peak:.3f}")
             return
 
         # ----------------------------------------
         # Check for second clap
         # ----------------------------------------
-
         elapsed = current_time - self.first_clap_time
 
         if elapsed <= self.clap_window:
-
-            print(
-                f"Second clap detected! Peak: {peak:.3f}"
-            )
-
-            print("✓ DOUBLE CLAP DETECTED")
-
-            # Tell the main loop that activation
-            # has occurred.
+            print(f"Second clap detected! Peak: {peak:.3f}")
+            print("[+] DOUBLE CLAP DETECTED")
+            # Signal detection
             self.double_clap_detected = True
-
             return
 
         # ----------------------------------------
-        # Too much time passed
-        # Treat this as a new first clap
+        # Too much time passed: treat as new first clap
         # ----------------------------------------
-
         self.first_clap_time = current_time
-
-        print(
-            f"New first clap detected! Peak: {peak:.3f}"
-        )
+        print(f"New first clap detected! Peak: {peak:.3f}")
 
     def wait_for_double_clap(self):
-
         print()
         print("=" * 45)
         print("          V.I.D.U.R. WAKE SYSTEM")
         print("=" * 45)
         print()
-
-        print(
-            f"Microphone device : {self.device}"
-        )
-
-        print(
-            f"Channels          : {self.channels}"
-        )
-
-        print(
-            f"Threshold         : {self.peak_threshold}"
-        )
-
+        print(f"Microphone device : {self.device}")
+        print(f"Channels          : {self.channels}")
+        print(f"Threshold         : {self.peak_threshold}")
         print()
         print("STATUS: STANDBY")
         print()
@@ -131,13 +101,10 @@ class ClapDetector:
             blocksize=1024,
             callback=self.process_audio,
         ):
-
-            # Keep listening until the callback
-            # detects two claps.
+            # Keep listening until the callback detects two claps
             while not self.double_clap_detected:
                 sd.sleep(50)
 
         print()
         print("V.I.D.U.R. ACTIVATION TRIGGERED")
-
         return True

@@ -2,232 +2,174 @@
 
 ### Voice-Interactive Digital Utility & Research Assistant
 
-> A modular personal AI agent designed to assist with software development, research, technical writing, and everyday productivity.
+> A modular personal AI assistant inspired by JARVIS, designed to assist with software development, research, technical writing, and everyday productivity.
 
 ---
 
 ## 🧠 About
 
-**V.I.D.U.R.** is a personal AI assistant inspired by futuristic assistants such as JARVIS.
-
-The goal is to build an intelligent agent capable of understanding natural language, interacting through voice, assisting with coding and research, and eventually operating tools on the user's computer with appropriate permissions.
-
-V.I.D.U.R. is designed around a **modular architecture**, allowing individual capabilities to be developed, tested, and integrated independently.
-
----
-
-## 🎯 Vision
-
-The long-term vision is to build V.I.D.U.R. as a **personal AI agent**, rather than simply a chatbot.
-
-```text
-                         V.I.D.U.R.
-                              │
-                              ▼
-                       Voice Interface
-                              │
-                    ┌─────────┴─────────┐
-                    ▼                   ▼
-              Speech-to-Text       Text-to-Speech
-                    │                   ▲
-                    ▼                   │
-                 AI Brain ──────────────┘
-                    │
-                    ▼
-                Task Router
-                    │
-        ┌───────────┼────────────┐
-        ▼           ▼            ▼
-     Research     Coding       General
-       Agent       Agent        Agent
-        │           │            │
-        └───────────┼────────────┘
-                    ▼
-                  Tools
-                    │
-       ┌────────────┼────────────┐
-       ▼            ▼            ▼
-   Filesystem    Terminal       Git
-                    │
-                    ▼
-                  Memory
-```
-
----
-
-## 🧠 Gemini AI Brain
-
-V.I.D.U.R. currently uses the **Google Gemini API** as its primary AI provider.
-
-Gemini is used for:
-
-* Software development
-* Code generation
-* Debugging
-* Algorithm assistance
-* Technical explanations
-* Research assistance
-* Technical writing
-* General conversation
-
-The Gemini model is configured through environment variables rather than being hard-coded into the application.
+**V.I.D.U.R.** is a personal AI assistant built with a modular Python architecture. It features a hands-free double-clap wake detection system, speech-to-text recognition, and ultra-fast inference powered by the **Groq API** with persistent session personality.
 
 ---
 
 ## 🏗️ Architecture
-
-The project follows a modular architecture:
 
 ```text
 V.I.D.U.R/
 │
 ├── app/
 │   ├── brain/
-│   │   ├── gemini_brain.py
-│   │   └── personality.py
+│   │   ├── base.py              # Abstract BaseBrain interface
+│   │   ├── groq_brain.py        # Groq SDK provider implementation
+│   │   ├── personality.py       # VIDUR persona & behavioral system prompt
+│   │   └── router.py            # Task routing interface (planned)
 │   │
 │   ├── config/
-│   │   ├── settings.py
+│   │   ├── settings.py          # Environment configuration & validation
 │   │   └── __init__.py
 │   │
+│   ├── core/
+│   │   ├── vidur.py             # Main system orchestrator & lifecycle loop
+│   │   └── activation.py        # Wake pipeline (clap → speech → wake phrase)
+│   │
 │   ├── voice/
-│   │   └── speech_listener.py
+│   │   └── speech_listener.py   # Microphone audio capture & STT
 │   │
 │   └── wake/
-│       └── clap_detector.py
+│       └── clap_detector.py     # Continuous audio stream & double-clap detection
 │
 ├── tests/
-│   ├── test_clap.py
-│   ├── test_speech.py
-│   ├── test_activation.py
-│   ├── test_config.py
-│   ├── test_gemini.py
-│   ├── test_conversation.py
-│   └── test_models.py
+│   ├── test_unit.py             # Automated unit tests (mocked, no hardware needed)
+│   ├── test_config.py           # Configuration loader test
+│   ├── test_groq.py             # Groq API connectivity test
+│   ├── test_conversation.py     # Interactive terminal conversation loop
+│   ├── test_models.py           # Multi-model inference test
+│   ├── test_clap.py             # Hardware test: clap detection
+│   ├── test_speech.py           # Hardware test: microphone STT
+│   └── test_activation.py       # Hardware test: activation pipeline
 │
-├── .env
-├── .gitignore
-├── main.py
-├── requirements.txt
+├── .env.example                 # Environment configuration template
+├── .gitignore                   # Git exclusion rules (protects .env)
+├── main.py                      # Canonical application entry point
+├── requirements.txt             # Project dependencies
 └── README.md
 ```
 
 ---
 
-## 🚀 Roadmap
+## ⚡ Execution Flow
 
-The planned development path is:
-
-1. **Complete the conversation system**
-2. **Add Text-to-Speech**
-3. **Build a desktop interface**
-4. **Implement a secure tool system**
-5. **Develop the coding agent**
-6. **Develop the research agent**
-7. **Implement persistent memory**
-8. **Add filesystem, terminal, and Git integrations**
-9. **Improve task routing and agent orchestration**
-10. **Add permission and safety controls for computer interaction**
-
----
-
-## 🔐 Security & Permissions
-
-As V.I.D.U.R. evolves from a conversational assistant into an agent capable of interacting with a computer, potentially sensitive operations should require explicit user permissions.
-
-Examples include:
-
-* Reading or modifying files
-* Executing terminal commands
-* Creating or deleting files
-* Running software
-* Making Git changes
-* Accessing external services
-
-The tool system should therefore be designed around **least-privilege access, explicit permissions, and clear user confirmation for destructive actions**.
-
----
-
-## 🧪 Testing
-
-V.I.D.U.R. includes tests for its core components:
-
-* Voice activation
-* Speech recognition
-* Activation logic
-* Configuration
-* Gemini integration
-* Conversation handling
-* Model behavior
-
-Run the test suite with:
-
-```bash
-pytest
+```text
+User (Microphone)
+       │
+       ▼
+[ClapDetector] ────────────► Listens for 2 peaks within window
+       │ (Double-clap detected)
+       ▼
+[SpeechListener] ──────────► Captures voice & transcribes via Google STT
+       │ (Wake phrase: "hey", "hello", "vidur")
+       ▼
+[VIDUR Orchestrator] ──────► Enters ACTIVE state
+       │
+       ▼
+[GroqBrain] ───────────────► High-speed inference with conversation history
+       │ (openai/gpt-oss-120b or configured Groq model)
+       ▼
+Console Output (V.I.D.U.R. Response)
 ```
 
 ---
 
-## ⚙️ Configuration
+## 🛠️ Installation & Setup
 
-Configuration is managed through environment variables.
-
-Create a `.env` file in the project root and configure the required API credentials and model settings.
-
-> **Important:** Never commit `.env` or API keys to version control.
-
-Make sure `.env` is included in `.gitignore`.
-
----
-
-## 🛠️ Installation
-
-Clone the repository and install the required dependencies:
+### 1. Clone & Set Up Virtual Environment
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/chaith1912/V.I.D.U.R.git
 cd V.I.D.U.R
+python -m venv .venv
+# Windows:
+.\.venv\Scripts\activate
+# Linux/macOS:
+source .venv/bin/activate
+```
+
+### 2. Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-Configure your environment variables, then run:
+### 3. Configure Environment
+
+Copy `.env.example` to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and provide your Groq API credentials:
+
+```dotenv
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=openai/gpt-oss-120b
+AUDIO_DEVICE=3
+LISTEN_DURATION=7
+```
+
+> **Security Note:** Never commit your `.env` file or API keys to version control. The `.env` file is excluded in `.gitignore`.
+
+---
+
+## 🚀 Running V.I.D.U.R.
+
+### Main Assistant (Voice Activation & Interaction)
 
 ```bash
 python main.py
 ```
 
+1. The system initializes the core orchestrator, brain, and wake subsystems.
+2. Status enters **STANDBY**.
+3. **Clap twice** to trigger wake detection.
+4. Speak the wake phrase (e.g., *"Hello VIDUR"*).
+5. V.I.D.U.R. goes **ACTIVE** and converses with you.
+6. Say *"sleep"* or *"standby"* to return to sleep mode, or *"exit"* to shut down.
+
+### Interactive Text Chat Mode (Testing without Microphone)
+
+```bash
+python tests/test_conversation.py
+```
+
 ---
 
-## 📌 Project Goals
+## 🧪 Testing
 
-V.I.D.U.R. aims to evolve from a voice-enabled conversational assistant into a modular AI agent capable of:
+### Automated Unit Tests (No hardware or API key required)
 
-* Understanding natural language
-* Conversing through voice
-* Generating and debugging code
-* Conducting research
-* Managing files
-* Working with the terminal
-* Interacting with Git
-* Maintaining long-term memory
-* Routing tasks to specialized agents
-* Operating computer tools safely with user authorization
+```bash
+python -m unittest discover tests
+```
 
-The ultimate goal is a **personal, extensible, and permission-aware AI agent** that can assist with both digital work and everyday productivity.
+### Provider & Model Tests (Requires GROQ_API_KEY)
 
-# 👤 Developer
+```bash
+python tests/test_config.py
+python tests/test_groq.py
+python tests/test_models.py
+```
 
-## Chaithanya R Rao
+### Hardware Tests (Requires Microphone)
 
-V.I.D.U.R. is being developed as a personal AI agent designed to combine modern AI capabilities with practical developer and research tools.
+```bash
+python tests/test_clap.py
+python tests/test_speech.py
+python tests/test_activation.py
+```
 
-### 🚀 Core Areas
+---
 
-* 🤖 **Artificial Intelligence**
-* 🎙️ **Voice Interfaces**
-* 🧠 **Agentic Systems**
-* 💻 **Software Engineering**
-* 🔬 **Research Assistance**
-* 🛠️ **Developer Tooling**
+## 👤 Developer
 
-V.I.D.U.R. aims to evolve into a capable personal AI assistant that can reason, research, interact through voice, assist with software development, and automate useful tasks.
+**Chaithanya R Rao**
